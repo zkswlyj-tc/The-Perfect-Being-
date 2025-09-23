@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Act III — Composite Protocol</title>
+    <meta
+      name="description"
+      content="Final act: composite protocol, light-novel prologue, and dispersion of the specimen."
+    />
+
+    <!-- Fonts used by act3.css -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;600;800&family=JetBrains+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Page styles -->
+    <link rel="stylesheet" href="act3.css" />
+
+    <!-- Three.js import map for ES module imports used in act3.js -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="flash" aria-hidden="true"></div>
+
+    <section id="novel" aria-label="Composite protocol briefing">
+      <div
+        class="line"
+        data-text="Composite protocol initialized. Resonance acquired."
+      ></div>
+      <div class="line" data-text="Perfection did not converge."></div>
+      <div
+        class="line"
+        data-text="To reach the absolute, we thinned the human to a surface."
+      ></div>
+      <div
+        class="line"
+        data-text="Beauty cracked. Power devoured. Survival erased."
+      ></div>
+      <div
+        class="line"
+        data-text="Perfection is a subtraction. The remainder is not a child."
+      ></div>
+      <div
+        class="line"
+        data-text="Release the specimen. Let the pieces return to the dark."
+      ></div>
+      <button id="enter" type="button">COMMIT // RELEASE</button>
+    </section>
+
+    <!-- Main stage -->
+    <main id="stage" aria-label="Dispersion stage" hidden>
+      <header class="topbar" role="banner">
+        <div>CAM-C // COMPOSITE_PROTOCOL_HUD</div>
+        <div id="telemetry" aria-live="polite">LINK ARMING…</div>
+      </header>
+
+      <!-- Starfield (2D canvas) -->
+      <canvas id="stars" aria-hidden="true"></canvas>
+
+      <!-- Three.js mounts here (loads asset/baby.fbx as particles) -->
+      <section
+        class="viewport"
+        id="viewport"
+        aria-label="Universe viewport"
+      ></section>
+
+      <!-- Controls -->
+      <footer class="cta" aria-label="Playback and capture controls">
+        <button id="replay" type="button" disabled>Replay</button>
+        <button id="save" type="button" disabled>Save Frame</button>
+      </footer>
+    </main>
+
+    <!-- HUD corners -->
+    <div class="corners" aria-hidden="true">
+      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+    </div>
+
+    <noscript>
+      <p
+        style="
+          padding: 16px;
+          font-family: 'JetBrains Mono', monospace;
+          color: #e8eef6;
+        "
+      >
+        This final act requires JavaScript to render the dispersion. Please
+        enable JavaScript to proceed.
+      </p>
+    </noscript>
+    <!-- p5 core + sound -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/addons/p5.sound.min.js"></script>
+
+    <!-- sound engine (new) -->
+    <script type="module" src="act3.sfx.js"></script>
+
+    <script type="module" src="act3.js"></script>
+  </body>
+</html>

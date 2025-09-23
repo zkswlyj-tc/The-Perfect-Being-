@@ -1,0 +1,489 @@
+:root {
+    --bg-0: #070a0f;
+    --bg-1: #0b1017;
+    --ink: #e8eef6;
+    --muted: #aeb8c7;
+    --accent: #66e1ff;
+    --accent2: #ffd166;
+    --panel: #0e131b;
+    --topbar-h: 50px;
+    --cta-h: 66px;
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "JetBrains Mono", monospace;
+    background:
+        radial-gradient(1200px 600px at 50% 120%, rgba(255, 255, 255, .04), transparent),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    overflow-x: hidden;
+    /* prevent accidental horizontal scroll */
+}
+
+/* subtle grid background (visual only, never affects layout) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .25;
+    background:
+        radial-gradient(600px 400px at 10% 10%, rgba(255, 255, 255, .05), transparent 60%),
+        radial-gradient(800px 500px at 90% 20%, rgba(255, 255, 255, .04), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .03) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .03) 0 1px, transparent 1px 40px);
+    mix-blend-mode: soft-light;
+}
+
+/* flash */
+#flash {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(800px 600px at 50% 50%, #fff, rgba(255, 255, 255, .15) 40%, transparent 70%), #fff;
+}
+
+#flash.arm {
+    animation: flashLife 820ms cubic-bezier(.2, .8, .2, 1) both
+}
+
+@keyframes flashLife {
+    0% {
+        opacity: 0
+    }
+
+    8% {
+        opacity: 1
+    }
+
+    55% {
+        opacity: .35
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+/* intro overlay */
+#novel {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    backdrop-filter: blur(2px);
+    overscroll-behavior: contain;
+}
+
+#novel .line {
+    font-family: "Handjet", system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: .06em;
+    opacity: .86;
+    text-align: center;
+    text-shadow: 0 0 18px rgba(102, 225, 255, .08);
+    font-size: clamp(18px, 2.4vw, 28px);
+    max-width: min(1100px, 90vw);
+    width: 100%;
+}
+
+#novel .line.dim {
+    opacity: .4
+}
+
+#enter {
+    margin-top: 18px;
+    padding: 12px 18px;
+    cursor: pointer;
+    background: linear-gradient(180deg, #0f141c, #0a0e14);
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+    letter-spacing: .08em;
+}
+
+#enter:disabled {
+    opacity: .5;
+    cursor: default
+}
+
+#enter:not(:disabled):hover {
+    filter: brightness(1.15)
+}
+
+/* ===== LAYOUT (no overflow) ===== */
+#stage {
+    position: relative;
+    z-index: 1;
+    height: 100dvh;
+    /* modern mobile-safe viewport */
+    display: grid;
+    grid-template-rows: calc(var(--topbar-h) + var(--safe-t)) minmax(0, 1fr) calc(var(--cta-h) + var(--safe-b));
+}
+
+@supports (-webkit-touch-callout:none) {
+
+    /* iOS Safari fallback */
+    html,
+    body {
+        height: -webkit-fill-available
+    }
+
+    #stage {
+        height: -webkit-fill-available
+    }
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+    backdrop-filter: blur(4px);
+    height: calc(var(--topbar-h) + var(--safe-t));
+    padding-top: calc(6px + var(--safe-t));
+}
+
+/* starfield stays fixed so it never stretches layout height */
+#stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .8;
+}
+
+/* the 3D viewport row */
+.viewport {
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+    /* crucial to prevent grid auto-min-height overflow */
+    min-width: 0;
+    /* prevents horizontal overflow from wide children */
+    overflow: clip;
+    /* hide sub-pixel canvas edges; fallback below */
+}
+
+@supports not (overflow: clip) {
+    .viewport {
+        overflow: hidden
+    }
+}
+
+.viewport canvas,
+#viewport>canvas.three-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* controls */
+.cta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(0, 0, 0, .08));
+    backdrop-filter: blur(3px);
+    height: calc(var(--cta-h) + var(--safe-b));
+    padding-bottom: var(--safe-b);
+}
+
+.cta button {
+    background: #0f141c;
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, .18);
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.cta button:disabled {
+    opacity: .5;
+    cursor: default
+}
+
+.cta button:not(:disabled):hover {
+    filter: brightness(1.15)
+}
+
+/* decorative corners */
+.corners {
+    position: fixed;
+    inset: 0;
+    pointer-events: none
+}
+
+.corners i {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, .12);
+    border-radius: 6px
+}
+
+.corners .tl {
+    left: 10px;
+    top: 10px;
+    border-right: none;
+    border-bottom: none
+}
+
+.corners .tr {
+    right: 10px;
+    top: 10px;
+    border-left: none;
+    border-bottom: none
+}
+
+.corners .bl {
+    left: 10px;
+    bottom: 10px;
+    border-right: none;
+    border-top: none
+}
+
+.corners .br {
+    right: 10px;
+    bottom: 10px;
+    border-left: none;
+    border-top: none
+}
+
+/* fades */
+.fade-out {
+    animation: fadeOut .6s ease forwards
+}
+
+.fade-in {
+    animation: fadeIn .6s ease forwards
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(6px);
+        visibility: hidden
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+/* ===== OVERLAYS ===== */
+.warn {
+    position: fixed;
+    inset: 0;
+    z-index: 9996;
+    pointer-events: none;
+    opacity: 0
+}
+
+.warn.open {
+    opacity: 1
+}
+
+.warn .veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 0, 32, .1);
+    mix-blend-mode: screen;
+    animation: warnPulse .6s ease-in-out infinite
+}
+
+@keyframes warnPulse {
+
+    0%,
+    100% {
+        opacity: .06
+    }
+
+    50% {
+        opacity: .18
+    }
+}
+
+.warn .frame {
+    position: absolute;
+    inset: 8px;
+    border: 2px solid rgba(255, 0, 32, .35);
+    filter: drop-shadow(0 0 16px rgba(255, 0, 32, .25))
+}
+
+.warn .txt {
+    position: absolute;
+    left: 50%;
+    top: 14px;
+    transform: translateX(-50%);
+    font: 700 12px/1 "JetBrains Mono", monospace;
+    color: #ffccd2;
+    letter-spacing: .22em;
+}
+
+.crt-off {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, .12) 0%, transparent 60%), #000;
+}
+
+.crt-off.run {
+    animation: crtCollapse 1s ease forwards
+}
+
+@keyframes crtCollapse {
+    0% {
+        opacity: 0
+    }
+
+    30% {
+        opacity: 1
+    }
+
+    70% {
+        transform: scaleY(.05)
+    }
+
+    100% {
+        transform: scaleY(0);
+        opacity: 0
+    }
+}
+
+.eol {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, .72);
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity .4s ease;
+    overscroll-behavior: contain;
+}
+
+.eol.open {
+    opacity: 1
+}
+
+.eol .box {
+    width: min(720px, calc(100% - 32px));
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 14px;
+    padding: 18px 16px 14px;
+    background: linear-gradient(180deg, rgba(18, 22, 28, .9), rgba(8, 10, 14, .9));
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .5);
+}
+
+.eol .line {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+    font: 400 14px/1.5 "JetBrains Mono", monospace;
+    color: #e9eef6;
+    margin: .25rem 0;
+}
+
+.eol .line.show {
+    opacity: 1;
+    transform: none
+}
+
+.eol .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px
+}
+
+.eol button {
+    pointer-events: auto;
+    font: 600 12px/1 "JetBrains Mono", monospace;
+    letter-spacing: .08em;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #0f1217;
+    color: #eaeff6;
+    border: 1px solid rgba(255, 255, 255, .16);
+}
+
+/* final blackout */
+.blackout {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10001;
+    opacity: 0;
+    transition: opacity .6s ease
+}
+
+.blackout.open {
+    opacity: 1
+}
+
+.blackout .sig {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(16px, 4vh, 40px);
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, .86);
+    font: 12.5px/1 "JetBrains Mono", monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: sigIn .8s ease forwards .5s;
+}
+
+@keyframes sigIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 8px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0)
+    }
+}

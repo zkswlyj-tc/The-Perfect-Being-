@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>TPB // Desktop Loader</title>
+    <link rel="stylesheet" href="preact1.css" />
+  </head>
+  <body>
+    <div class="desktop" id="desktop" aria-label="Desktop">
+      <!-- Icons -->
+      <button class="icon" data-open="readme" aria-label="Open ReadMe.txt">
+        <span class="ico 📄" aria-hidden="true"></span>
+        <span class="label">ReadMe.txt</span>
+      </button>
+
+      <button class="icon" data-open="images" aria-label="Open Images">
+        <span class="ico 🗂️" aria-hidden="true"></span>
+        <span class="label">Images</span>
+      </button>
+
+      <button
+        id="tpbIcon"
+        class="icon primary"
+        data-open="tpb"
+        aria-label="Run tpb.exe"
+        title="Run tpb.exe"
+      >
+        <span class="ico 💠" aria-hidden="true"></span>
+        <span class="label">tpb.exe</span>
+      </button>
+
+      <button class="icon" data-open="notes" aria-label="Open Notes">
+        <span class="ico 📝" aria-hidden="true"></span>
+        <span class="label">Notes</span>
+      </button>
+    </div>
+
+    <!-- Taskbar -->
+    <footer class="taskbar" role="contentinfo">
+      <button
+        class="start"
+        id="startBtn"
+        aria-haspopup="true"
+        aria-controls="menu"
+      >
+        Start
+      </button>
+      <div class="spacer"></div>
+      <div class="clock" id="clock">00:00</div>
+    </footer>
+
+    <!-- Start menu -->
+    <nav id="menu" class="menu" hidden>
+      <button class="menu-item" data-open="readme">Open ReadMe.txt</button>
+      <button class="menu-item" data-open="tpb">Run tpb.exe</button>
+      <hr />
+      <button class="menu-item" data-open="about">About</button>
+    </nav>
+
+    <!-- Window layer -->
+    <div id="wins"></div>
+
+    <script src="preact1.js"></script>
+  </body>
+</html>

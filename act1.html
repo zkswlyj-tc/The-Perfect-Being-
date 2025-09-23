@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Act I — Preface Scan</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&family=EB+Garamond:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="act1.css" />
+  </head>
+  <body>
+    <!-- OPENING SCREEN -->
+    <section
+      class="opening-screen"
+      id="openingScreen"
+      aria-label="Project File Cover"
+    >
+      <div class="opening-grain"></div>
+      <div class="opening-wrap">
+        <div class="opening-top">
+          <div class="stamp">TOP&nbsp;SECRET</div>
+          <div class="logo">R&amp;D</div>
+        </div>
+
+        <h1
+          class="project-title scan-typed"
+          data-text="// THE PERFECT BEING PROJECT"
+        ></h1>
+
+        <div class="filecard">
+          <div class="row">
+            <span class="k">FILE</span><span class="v">TPB-Δ-01</span>
+          </div>
+          <div class="row">
+            <span class="k">SPECIMEN</span><span class="v">A</span>
+          </div>
+          <div class="row">
+            <span class="k">CLASS</span
+            ><span class="v">RESTRICTED · EYES ONLY</span>
+          </div>
+          <div class="row">
+            <span class="k">STATUS</span><span class="v">ARCHIVED — READY</span>
+          </div>
+          <div class="row">
+            <span class="k">LOCATION</span><span class="v">CHAMBER A</span>
+          </div>
+          <div class="row">
+            <span class="k">REVISION</span><span class="v">v0.9.7</span>
+          </div>
+        </div>
+
+        <button id="openFileBtn" class="btn-open">OPEN FILE</button>
+        <div class="foot mono">
+          Proceed to identity verification to access the archive.
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIN SCREEN -->
+    <section
+      class="login-screen"
+      id="loginScreen"
+      aria-label="Top Secret Access Terminal"
+    >
+      <!-- Ambient layers -->
+      <div class="crt-scan"></div>
+      <div class="crt-noise"></div>
+
+      <div class="login-wrap">
+        <div class="seal">
+          <div class="seal-ring"></div>
+          <div class="seal-core">R&D</div>
+        </div>
+
+        <header class="login-header">
+          <h1
+            class="display scan-typed"
+            data-text="// ACCESS TERMINAL · CLASSIFIED"
+          ></h1>
+          <p
+            class="sub scan-typed"
+            data-text="ARCHIVE LINK ESTABLISHED · CLEARANCE REQUIRED"
+          ></p>
+        </header>
+
+        <form id="loginForm" class="login-form" autocomplete="off">
+          <label class="mono" for="name">RESEARCHER ID</label>
+          <div class="input-row">
+            <input
+              id="name"
+              name="name"
+              type="text"
+              inputmode="latin-name"
+              required
+              placeholder="Enter your callsign"
+            />
+            <button type="submit" class="btn-enter">VERIFY</button>
+          </div>
+
+          <div class="meta">
+            <label class="chk"
+              ><input type="checkbox" id="nda" required /> I accept the
+              Non-Disclosure Protocol</label
+            >
+          </div>
+        </form>
+
+        <!-- Verification UI -->
+        <div class="verify" id="verifyUI" hidden>
+          <div class="mono tiny">VERIFICATION SEQUENCE</div>
+          <div class="progress"><div class="bar" id="verifyBar"></div></div>
+          <div class="log mono" id="verifyLog" aria-live="polite"></div>
+        </div>
+
+        <!-- Result banners -->
+        <div class="banner success" id="bannerGranted" hidden>
+          ACCESS GRANTED
+        </div>
+        <div class="banner deny" id="bannerDenied" hidden>ACCESS DENIED</div>
+
+        <footer class="foot">
+          Unauthorized access attempts are logged · Property of Research
+          Division
+        </footer>
+      </div>
+    </section>
+
+    <div class="frame">
+      <!-- LEFT:  HUD Brief -->
+      <section class="hud-slab" id="brief">
+        <header class="slab-head mono">
+          <span class="id">CH-A</span>
+          <span class="sep">/</span>
+          <span class="title">SPECIMEN A · BRIEF</span>
+          <span class="rec">REC</span>
+        </header>
+
+        <div class="slab-body">
+          <div class="row">
+            <span class="key mono">STATUS</span>
+            <span class="val">STABILIZED</span>
+          </div>
+
+          <div class="row">
+            <span class="key mono">PROTOCOLS</span>
+            <span class="val">SCAN · RECORD · INTERVENE</span>
+          </div>
+
+          <div class="row">
+            <span class="key mono">DIRECTIVE</span>
+            <span class="val strong">SELECT A VECTOR</span>
+          </div>
+
+          <div class="stats">
+            <button class="stat" data-key="beauty" style="--pct: 0">
+              <span class="label">BEAUTY</span>
+              <span class="value mono">00%</span>
+              <span class="bar"><i></i></span>
+            </button>
+
+            <button class="stat" data-key="power" style="--pct: 0">
+              <span class="label">POWER</span>
+              <span class="value mono">00%</span>
+              <span class="bar"><i></i></span>
+            </button>
+
+            <button class="stat" data-key="survival" style="--pct: 0">
+              <span class="label">SURVIVAL</span>
+              <span class="value mono">00%</span>
+              <span class="bar"><i></i></span>
+            </button>
+          </div>
+
+          <div class="ecg" aria-hidden="true"><canvas id="ecg"></canvas></div>
+
+          <footer class="hint mono">
+            ↳ Scrub scan to 100% to unlock decisions.
+          </footer>
+        </div>
+
+        <!-- synced visor sweep -->
+        <div class="visor" aria-hidden="true"></div>
+        <div class="corners" aria-hidden="true">
+          <i class="tl"></i><i class="tr"></i><i class="bl"></i
+          ><i class="br"></i>
+        </div>
+      </section>
+      <!-- RIGHT: Scan viewport -->
+      <section class="viewport" id="viewport">
+        <div class="topbar">
+          <div>CAM-A // PREFACE · SCAN_HUD</div>
+          <div>ARCHIVE ONLINE · USER PRESENCE VERIFIED</div>
+        </div>
+
+        <div class="grid"></div>
+        <div class="dust"></div>
+
+        <div class="scan-line" id="scanLine"></div>
+        <div class="scan-glow" id="scanGlow"></div>
+
+        <div class="hud">
+          <div class="pill" id="status">SCAN THE BAY</div>
+          <div class="pill">COORDS <span id="coords">X:0 Y:0</span></div>
+        </div>
+      </section>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module" src="scanModel_fbx.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+    <script src="act1.js"></script>
+    <script type="module" src="act1.sfx.js"></script>
+  </body>
+</html>

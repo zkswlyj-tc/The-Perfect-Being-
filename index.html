@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Perfect Being — Landing</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+
+    <link rel="stylesheet" href="landing.css" />
+  </head>
+  <body>
+    <div id="stage"></div>
+
+    <!-- UI layer -->
+    <main class="ui">
+      <img
+        class="title-svg"
+        src="asset/landingpage.svg"
+        alt="The Perfect Being"
+      />
+
+      <p class="tagline">WE ARE BORN ONCE, THE REST IS BY DESIGN</p>
+
+      <p class="enter-hint">PRESS <b>E</b> / <b>ENTER</b> TO ACCESS FILE</p>
+    </main>
+
+    <div class="overlays">
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+      <div class="overlays">
+        <div class="scanlines"></div>
+        <div class="vignette"></div>
+
+        <div class="frame-bezel" aria-hidden="true">
+          <div class="frame-head mono">
+            <span class="lhs">TPB // TERMINAL</span>
+            <span class="rhs">ZSWLYJ· SPECIMEN A</span>
+          </div>
+
+          <div class="frame-corners">
+            <i class="c tl"></i><i class="c tr"></i> <i class="c bl"></i
+            ><i class="c br"></i>
+          </div>
+
+          <div class="frame-screws">
+            <span class="s tl"></span><span class="s tr"></span>
+            <span class="s bl"></span><span class="s br"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="landing.sfx.js"></script>
+
+    <script>
+      const TARGET = "preact1.html";
+    </script>
+
+    <script src="landing.js"></script>
+  </body>
+</html>

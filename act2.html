@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Act II — Select a Vector</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="act2.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Ambient layers -->
+    <div class="grid" aria-hidden="true"></div>
+    <canvas id="dust" class="dust" aria-hidden="true"></canvas>
+
+    <!-- HUD strip -->
+    <div class="hud mono" role="status" aria-live="polite">
+      <div>CAM-B // VECTOR_SELECTOR_HUD</div>
+      <div id="telemetry">LINK STABLE</div>
+    </div>
+
+    <main class="selector" aria-label="Vector Selection">
+      <h1 class="title">// CHOOSE A PATH</h1>
+      <p class="subtitle mono">
+        Set out small signals, nothing heavy. Watch which one the body leans
+        toward, like iron to a field. That touch shall becomes the path.
+      </p>
+
+      <section class="cards" id="cards" aria-label="Relic Options">
+        <!-- BEAUTY -->
+        <article
+          class="card"
+          data-key="beauty"
+          tabindex="0"
+          aria-label="Select Beauty"
+        >
+          <div class="ornaments" aria-hidden="true">
+            <svg class="rings" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" />
+              <circle cx="100" cy="100" r="60" />
+            </svg>
+            <div class="glyphs">✶ ✳ ✺ ✦ ✶ ✳ ✺ ✦</div>
+          </div>
+          <div class="model-slot">
+            <div class="gl" id="model_beauty"></div>
+          </div>
+          <header class="card-head">
+            <h2>BEAUTY</h2>
+            <span class="tag mono">HARMONY → FRAGILITY</span>
+          </header>
+          <p class="blurb">
+            The Glass Bloom: symmetry refined to lace. The closer to perfect,
+            the thinner it becomes.
+          </p>
+          <button class="choose">ENGAGE</button>
+        </article>
+
+        <!-- POWER -->
+        <article
+          class="card"
+          data-key="power"
+          tabindex="0"
+          aria-label="Select Power"
+        >
+          <div class="ornaments" aria-hidden="true">
+            <svg class="rings" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" />
+              <circle cx="100" cy="100" r="60" />
+            </svg>
+            <div class="glyphs">▦ ▧ ▩ ▣ ▦ ▧ ▩ ▣</div>
+          </div>
+          <div class="model-slot">
+            <div class="gl" id="model_power"></div>
+          </div>
+          <header class="card-head">
+            <h2>POWER</h2>
+            <span class="tag mono">ORDER → OVERREACH</span>
+          </header>
+          <p class="blurb">
+            The Crown: structure, pressure, control. Mass forms; then mass
+            consumes.
+          </p>
+          <button class="choose">ENGAGE</button>
+        </article>
+
+        <!-- SURVIVAL -->
+        <article
+          class="card"
+          data-key="survival"
+          tabindex="0"
+          aria-label="Select Survival"
+        >
+          <div class="ornaments" aria-hidden="true">
+            <svg class="rings" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" />
+              <circle cx="100" cy="100" r="60" />
+            </svg>
+            <div class="glyphs">✚ ☍ ✜ ☌ ✚ ☍ ✜ ☌</div>
+          </div>
+          <div class="model-slot">
+            <div class="gl" id="model_survival"></div>
+          </div>
+          <header class="card-head">
+            <h2>SURVIVAL</h2>
+            <span class="tag mono">FUNCTION → EROSION</span>
+          </header>
+          <p class="blurb">
+            The Knife: incision and selection. What endures is what we cut
+            toward. The edge edits what remains human.
+          </p>
+          <button class="choose">ENGAGE</button>
+        </article>
+      </section>
+
+      <div class="unlock">
+        <button id="combineBtn" disabled>COMBINE ▸</button>
+      </div>
+
+      <footer class="foot mono">
+        Tip: hover / focus to preview. Press Enter to engage.
+      </footer>
+    </main>
+
+    <!-- Briefing drawer shown after each ENGAGE -->
+    <aside id="intel" class="intel hidden" aria-live="polite">
+      <div class="intel-body">
+        <h3 id="intelTitle" class="mono"></h3>
+        <p id="intelText"></p>
+      </div>
+      <button id="intelClose" class="intel-close mono">DISMISS</button>
+    </aside>
+
+    <!-- Corner brackets -->
+    <div class="corners" aria-hidden="true">
+      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+    </div>
+
+    <script type="module" src="act2.sfx.js"></script>
+    <script type="module" src="act2.js"></script>
+  </body>
+</html>
